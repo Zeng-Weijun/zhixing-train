@@ -1,10 +1,10 @@
-# Agenesis Train
+# Zhixing Train
 
 ## Open SFT and RL Infrastructure
 
-`agenesis-train` is the training orchestration layer of Agenesis. It consumes versioned dataset releases and launches supervised fine-tuning, GRPO, RLVR, and related optimization workflows.
+`zhixing-train` is the training orchestration layer of Zhixing Stack. It consumes versioned dataset releases and launches supervised fine-tuning, GRPO, RLVR, and related optimization workflows.
 
-它对应原来的 `slime-infra`。Slime 是当前的重要 backend，但不是 Agenesis 的公共协议或总品牌。
+它对应原来的 `slime-infra`。Slime 是当前的重要 backend，但不是 Zhixing Stack 的公共协议或总品牌。
 
 ## 中文定位
 
@@ -14,7 +14,7 @@ TrainingRecord
 Base Model
 Training Config
         ↓
-   Agenesis Train
+   Zhixing Train
         ↓
 CheckpointManifest
 Train Metrics
@@ -35,7 +35,7 @@ Model Artifact
 ## 示例入口
 
 ```bash
-agenesis-train sft \
+zhixing-train sft \
   --dataset artifacts/datasets/coder-sft.yaml \
   --model <base-model> \
   --backend slime \
@@ -43,7 +43,7 @@ agenesis-train sft \
 ```
 
 ```bash
-agenesis-train rl \
+zhixing-train rl \
   --policy artifacts/checkpoints/sft-step-1000 \
   --env-registry artifacts/envs/registry.jsonl \
   --backend slime \
@@ -53,14 +53,14 @@ agenesis-train rl \
 ## Backend 设计
 
 ```text
-Agenesis Train
+Zhixing Train
 ├── backends/slime
 ├── backends/verl
 ├── backends/trl
 └── backends/custom
 ```
 
-上层只依赖 `Agenesis Train` 的训练和产物协议，不直接依赖 Slime 的内部目录或 launcher。
+上层只依赖 `Zhixing Train` 的训练和产物协议，不直接依赖 Slime 的内部目录或 launcher。
 
 ## 边界
 
@@ -72,17 +72,16 @@ Agenesis Train
 - 将 hidden oracle 写入训练数据
 - 维护 benchmark score 定义
 
-数据由 [Agenesis Data](https://github.com/Zeng-Weijun/agenesis-data) 生产，执行和 rollout 由 [Agenesis Runtime](https://github.com/Zeng-Weijun/agenesis-runtime) 提供，最终评测由 [Agenesis Bench](https://github.com/Zeng-Weijun/agenesis-bench) 负责。
+数据由 [Zhixing Data](https://github.com/Zeng-Weijun/zhixing-data) 生产，执行和 rollout 由 [Zhixing Runtime](https://github.com/Zeng-Weijun/zhixing-runtime) 提供，最终评测由 [Zhixing Bench](https://github.com/Zeng-Weijun/zhixing-bench) 负责。
 
 ## English
 
-`agenesis-train` provides backend-independent orchestration for SFT, GRPO, RLVR, and future optimization methods.
+`zhixing-train` provides backend-independent orchestration for SFT, GRPO, RLVR, and future optimization methods.
 
-The public interface is defined in terms of dataset releases, training runs, checkpoints, and metrics. Slime is implemented as an adapter and can be replaced without changing the rest of the Agenesis stack.
+The public interface is defined in terms of dataset releases, training runs, checkpoints, and metrics. Slime is implemented as an adapter and can be replaced without changing the rest of the Zhixing Stack.
 
 The trainer consumes data; it does not own task generation, environment verification, or benchmark scoring.
 
 ## Status
 
 Public alpha scaffold. Training launchers and backend adapters will be added incrementally.
-
